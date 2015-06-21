@@ -15,6 +15,11 @@
   		<artifactId>pi4j-core</artifactId>
   		<version>1.0</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.99soft.guice.sli4j</groupId>
+  		<artifactId>sli4j-log4j</artifactId>
+  		<version>3.3</version>
+  	</dependency>
   </dependencies>
   
   <build>
