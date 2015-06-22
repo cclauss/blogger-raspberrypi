@@ -24,8 +24,8 @@
 
 package ch.myraspberry.led;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
@@ -35,7 +35,8 @@ import com.pi4j.io.gpio.RaspiPin;
 
 public final class BlinkingLED {
 
-	final static Logger log = Logger.getLogger(BlinkingLED.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(BlinkingLED.class);
 
 	public static void main(String[] args) {
 
@@ -53,13 +54,13 @@ public final class BlinkingLED {
 			// toggle pin state for 25 times
 			for (int i = 0; i < 25; i++) {
 				pin.toggle();
-				log.log(Level.INFO, pin.getState());
+				log.info(pin.getState().toString());
 				Thread.sleep(2500);
 			}
 			// done shut down the GPIO controller now
 			gpio.shutdown();
 		} catch (InterruptedException e) {
-			log.log(Level.ERROR, e);
+			log.error("An error occurred!", e);
 		}
 	}
 }
