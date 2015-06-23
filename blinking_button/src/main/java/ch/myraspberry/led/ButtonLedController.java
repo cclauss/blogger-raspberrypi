@@ -95,7 +95,7 @@ public class ButtonLedController {
 			@Override
 			public void handleGpioPinDigitalStateChangeEvent(
 					GpioPinDigitalStateChangeEvent event) {
-				setButtonPressed(event);
+				handleButtonPressed(event);
 			}
 		});
 	}
@@ -115,7 +115,7 @@ public class ButtonLedController {
 		});
 	}
 
-	private void setButtonPressed(GpioPinDigitalStateChangeEvent event) {
+	private void handleButtonPressed(GpioPinDigitalStateChangeEvent event) {
 		if (event.getState().isHigh()) {
 			state = ButtonState.DOWN;
 		} else if (event.getState().isLow() && state == ButtonState.DOWN) {
