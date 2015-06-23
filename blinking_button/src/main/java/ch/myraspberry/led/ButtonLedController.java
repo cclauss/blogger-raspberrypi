@@ -18,7 +18,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @author  Markus Keller
- * @version 0.1
+ * @version 0.2
  * @since   2014-06-20
  * 
  */
@@ -72,7 +72,7 @@ public class ButtonLedController {
 
 	public void start() {
 		isRunning = true;
-		createRunner();
+		createLoop();
 		log.info("Controller has been started.");
 	}
 
@@ -100,7 +100,7 @@ public class ButtonLedController {
 		});
 	}
 
-	private void createRunner() {
+	private void createLoop() {
 		executor = Executors.newSingleThreadExecutor();
 		loop = executor.submit(new Runnable() {
 			@Override
