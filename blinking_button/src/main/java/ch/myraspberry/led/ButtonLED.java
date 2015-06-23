@@ -1,8 +1,7 @@
 /**
- * The ButtonLED program implements an application that 
- * controls a pin on a Raspberry PI platform to regulate
- * a LED by a  button on the board. If the button is
- * pressed, the LED changes its state.
+ * The ButtonLED program implements an application for 
+ * starting and stopping a manager class that controls
+ * a led turned on or off by pressing a button.
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,48 +27,26 @@ package ch.myraspberry.led;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.pi4j.io.gpio.GpioController;
-import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
-import com.pi4j.io.gpio.event.GpioPinDigitalStateChangeEvent;
-import com.pi4j.io.gpio.event.GpioPinListenerDigital;
-
-public final class ButtonLED implements GpioPinListenerDigital {
+public final class ButtonLED {
 
 	private static final Logger log = LoggerFactory.getLogger(ButtonLED.class);
 
 	public static void main(String[] args) {
 
-		// create gpio controller
-		final GpioController gpio = GpioFactory.getInstance();
-
-		// define gpio pin number 1 as an output pin and turn it off
-		final GpioPinDigitalOutput pin = gpio.provisionDigitalOutputPin(
-				RaspiPin.GPIO_01, "LED", PinState.LOW);
-
-		// set shutdown state for pin 1 (LED)
-		pin.setShutdownOptions(true, PinState.LOW);
-
 		try {
-			// toggle pin state for 25 times
-			for (int i = 0; i < 25; i++) {
-				pin.toggle();
-				Thread.sleep(2500);
-			}
-			// done shut down the GPIO controller now
-			gpio.shutdown();
-		} catch (InterruptedException e) {
-			log.error("An error occurred!", e);
+			log.info("Starting LED controller...");
+			ButtonLedController controller = new ButtonLedController();
+			controller.start();
+			log.info("LED controller is running...");
+			Runtime.getRuntime().addShutdownHook(new Thread() {
+				@Override
+				public void run() {
+					controller.stop();
+					log.info("LED controller terminated.");
+				}
+			});
+		} catch (Exception e) {
+			log.error("An unexpected error occurred!", e);
 		}
-	}
-
-	@Override
-	public void handleGpioPinDigitalStateChangeEvent(
-			GpioPinDigitalStateChangeEvent event) {
-
-		log.info(" --> GPIO PIN STATE CHANGE: " + event.getPin() + " = "
-				+ event.getState());
 	}
 }
