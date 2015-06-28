@@ -81,6 +81,7 @@ public class ButtonLedController {
 		while (!loop.isDone()) {
 			log.info("Waiting for runner to stop...");
 		}
+		gpio.shutdown();
 		executor.shutdown();
 		log.info("Controller has been stopped.");
 	}
