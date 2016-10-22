@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ch.raspberry-javame.blogspot.pi4j</groupId>
+  <artifactId>system-info</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Raspberry Pi System Info</name>
+  <description>Reads system information from a Raspberry Pi to a cloud using Pi4J.</description>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.java>1.8</version.java>
+    <version.plugin.compiler>3.5.1</version.plugin.compiler>
+    <version.plugin.war>3.0.0</version.plugin.war>
+  </properties>
+  
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${version.plugin.compiler}</version>
+            <configuration>
+                <source>${version.java}</source>
+                <target>${version.java}</target>
+                <optimize>true</optimize>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${version.plugin.war}</version>
+            <configuration>
+                <failOnMissingWebXml>true</failOnMissingWebXml>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+    
+  <packaging>war</packaging>
+</project>
