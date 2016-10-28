@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>ch.raspberry-javame.blogspot</groupId>
+  <artifactId>hello-war</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>war</packaging>
+  <name>Hello World Web Application</name>
+  <description>Hello World application demonstrates deploying with Tomcat 9.0.0.x maven plugin</description>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.java>1.8</version.java>
+    <version.plugin.compiler>3.5.1</version.plugin.compiler>
+    <version.plugin.war>3.0.0</version.plugin.war>
+    <version.servlet-api>4.0.0-b01</version.servlet-api>
+    <version.plugin.tomcat7>2.2</version.plugin.tomcat7>
+  </properties>
+  
+  <dependencies>
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${version.servlet-api}</version>
+        <scope>provided</scope>
+    </dependency>
+  </dependencies>
+  
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${version.plugin.compiler}</version>
+            <configuration>
+                <source>${version.java}</source>
+                <target>${version.java}</target>
+                <optimize>true</optimize>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${version.plugin.war}</version>
+            <configuration>
+                <failOnMissingWebXml>true</failOnMissingWebXml>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>${version.plugin.tomcat7}</version>
+            <configuration>
+               <!-- Add tomcat user and password to maven's setttings.xml in server section  -->
+               <server>TomcatServer</server>
+               <url>http://localhost:8080/manager/text</url>
+               <path>/hello</path>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
+  
+</project>
