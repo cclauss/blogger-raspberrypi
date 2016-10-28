@@ -5,13 +5,31 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Raspberry Pi System Info</name>
   <description>Reads system information from a Raspberry Pi to a cloud using Pi4J.</description>
+  <packaging>war</packaging>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.java>1.8</version.java>
     <version.plugin.compiler>3.5.1</version.plugin.compiler>
     <version.plugin.war>3.0.0</version.plugin.war>
+    <version.quartz>2.2.3</version.quartz>
+    <version.servlet-api>4.0.0-b01</version.servlet-api>
+    <version.plugin.tomcat7>2.2</version.plugin.tomcat7>
   </properties>
+  
+  <dependencies>
+    <dependency>
+        <groupId>org.quartz-scheduler</groupId>
+        <artifactId>quartz</artifactId>
+        <version>${version.quartz}</version>
+    </dependency>
+    <dependency>
+    	<groupId>javax.servlet</groupId>
+    	<artifactId>javax.servlet-api</artifactId>
+    	<version>${version.servlet-api}</version>
+    	<scope>provided</scope>
+    </dependency>
+  </dependencies>
   
   <build>
     <finalName>${project.artifactId}</finalName>
@@ -34,8 +52,16 @@
                 <failOnMissingWebXml>true</failOnMissingWebXml>
             </configuration>
         </plugin>
+        <plugin>
+        	<groupId>org.apache.tomcat.maven</groupId>
+        	<artifactId>tomcat7-maven-plugin</artifactId>
+        	<version>${version.plugin.tomcat7}</version>
+        	<configuration>
+        	   <server>TomcatServer</server>
+        	   <url>http://localhost:8080/manager/text</url>
+        	   <path>/hello</path>
+        	</configuration>
+        </plugin>
     </plugins>
   </build>
-    
-  <packaging>war</packaging>
 </project>
