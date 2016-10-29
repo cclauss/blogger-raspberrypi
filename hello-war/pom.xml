@@ -52,7 +52,7 @@
             <configuration>
                <!-- Add tomcat user and password to maven's setttings.xml in server section  -->
                <server>TomcatServer</server>
-               <url>http://localhost:8080/manager/text</url>
+               <url>http://127.0.0.1:8080/manager/text</url>
                <path>/hello</path>
             </configuration>
         </plugin>
