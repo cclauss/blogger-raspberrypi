@@ -4,22 +4,4 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
-  <context-param>
-    <param-name>quartz:config-file</param-name>
-    <param-value>quartz.properties</param-value>
-  </context-param>
-  <context-param>
-    <param-name>quartz:shutdown-on-unload</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>quartz:wait-on-shutdown</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  <context-param>
-    <param-name>quartz:start-on-load</param-name>
-    <param-value>true</param-value>
-  </context-param>
-  
 </web-app>

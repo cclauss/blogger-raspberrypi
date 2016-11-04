@@ -1,22 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ch.raspberry-javame.blogspot.pi4j</groupId>
-  <artifactId>system-info</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>Raspberry Pi System Info</name>
-  <description>Reads system information from a Raspberry Pi to store it in a cloud using Pi4J.</description>
+  <version>1.0</version>
   <packaging>war</packaging>
+  
+  <groupId>ch.raspberry.javame.blogspot</groupId>
+  <artifactId>job-manager</artifactId>
+  <name>Info Manger</name>
+  <description>A simple application that shows how to integrate Quartz Job Scheduler in a Java Web Application.</description>
   
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <version.java>1.8</version.java>
     <version.plugin.compiler>3.5.1</version.plugin.compiler>
     <version.plugin.war>3.0.0</version.plugin.war>
-    <version.quartz>2.2.3</version.quartz>
-    <version.servlet-api>4.0.0-b01</version.servlet-api>
-    <version.rest-api>2.0.1</version.rest-api>
-    <version.pi4j-api>1.1</version.pi4j-api>
     <version.plugin.tomcat7>2.2</version.plugin.tomcat7>
+    <version.quartz>2.2.3</version.quartz>
+    <version.servlet-api>3.1.0</version.servlet-api>
+    <version.log4j-web>2.7</version.log4j-web>
+    <version.log4j-simple>1.7.21</version.log4j-simple>
   </properties>
   
   <dependencies>
@@ -26,20 +27,20 @@
         <version>${version.quartz}</version>
     </dependency>
     <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>javax.servlet-api</artifactId>
-    	<version>${version.servlet-api}</version>
-    	<scope>provided</scope>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>${version.servlet-api}</version>
+        <scope>provided</scope>
     </dependency>
     <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>javax.ws.rs-api</artifactId>
-        <version>${version.rest-api}</version>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-web</artifactId>
+        <version>${version.log4j-web}</version>
     </dependency>
     <dependency>
-    	<groupId>com.pi4j</groupId>
-    	<artifactId>pi4j-core</artifactId>
-    	<version>${version.pi4j-api}</version>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${version.log4j-simple}</version>
     </dependency>
   </dependencies>
   
@@ -69,11 +70,12 @@
         	<artifactId>tomcat7-maven-plugin</artifactId>
         	<version>${version.plugin.tomcat7}</version>
         	<configuration>
-        	   <server>TomcatServer</server>
-        	   <url>http://localhost:8080/manager/text</url>
-        	   <path>/sysinfo</path>
-        	</configuration>
+        	    <server>TomcatServer</server>
+                <url>http://localhost:8080/manager/text</url>
+                <path>job-manager</path>
+            </configuration>
         </plugin>
     </plugins>
   </build>
+  
 </project>
