@@ -14,7 +14,7 @@ import ch.raspberryjavame.blogspot.info.service.ServiceDispatcher;
 @Path("/system")
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
-public class SystemInfo {
+public class SystemInfoService {
 
 	@GET
 	@Path("/logs")
