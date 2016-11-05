@@ -1,9 +1,10 @@
 package ch.raspberryjavame.blogspot.info.scheduler;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -16,20 +17,34 @@ import org.quartz.impl.StdSchedulerFactory;
 @WebListener
 public class InfoQuartzListener extends QuartzInitializerListener {
 
+	private final Logger LOG = LogManager.getLogger(InfoQuartzListener.class);
+	private Scheduler scheduler;
+
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		super.contextInitialized(sce);
-		ServletContext ctx = sce.getServletContext();
-		StdSchedulerFactory factory = (StdSchedulerFactory) ctx.getAttribute(QUARTZ_FACTORY_KEY);
 		try {
-			Scheduler scheduler = factory.getScheduler();
+			scheduler = new StdSchedulerFactory().getScheduler();
 			JobDetail jobDetail = JobBuilder.newJob(SystemInfoJob.class).build();
 			Trigger trigger = TriggerBuilder.newTrigger().withIdentity("simple")
 					.withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * 1/1 * ? *")).startNow().build();
 			scheduler.scheduleJob(jobDetail, trigger);
 			scheduler.start();
 		} catch (Exception e) {
-			ctx.log("There was an error scheduling the job.", e);
+			LOG.error("There was an error scheduling the job.", e);
 		}
+	}
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+		try {
+			if (scheduler != null) {
+				scheduler.shutdown();
+				Thread.sleep(2000); // wait for shutdown
+				LOG.info("Quartz Scheduler shutdown complete.");
+			}
+		} catch (Exception e) {
+			LOG.error("There was an error shutting down the job!", e);
+		}
+
 	}
 }

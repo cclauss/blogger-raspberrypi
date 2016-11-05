@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="trace" strict="true" name="XMLConfigTest"
+               packages="">         
+    
+    <Appenders>
+        <Console name="Default" target="SYSTEM_OUT">
+            <PatternLayout pattern="Info Manger :: %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <filters>
+                <MarkerFilter marker="JOB" onMatch="DENY" onMismatch="ACCEPT"/>
+            </filters>
+        </Console>
+        <Console name="Job" target="SYSTEM_OUT">
+            <PatternLayout pattern="Quartz Job :: %d %p %C{1.} [%t] %m%n"/>
+            <filters>
+                <MarkerFilter marker="JOB" onMatch="ACCEPT" onMismatch="DENY"/>
+            </filters>
+        </Console>
+    </Appenders>
+    
+    <Loggers>
+	    <Root level="TRACE">
+	        <AppenderRef ref="Default" level="TRACE"/>
+	        <AppenderRef ref="Job" level="TRACE"/>
+	    </Root>
+    </Loggers>
+    
+</Configuration>

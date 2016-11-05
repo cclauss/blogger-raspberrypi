@@ -13,10 +13,11 @@
     <version.plugin.compiler>3.5.1</version.plugin.compiler>
     <version.plugin.war>3.0.0</version.plugin.war>
     <version.quartz>2.2.3</version.quartz>
-    <version.servlet-api>4.0.0-b01</version.servlet-api>
-    <version.rest-api>2.0.1</version.rest-api>
+    <version.servlet-api>3.1.0</version.servlet-api>
+    <version.rest-api>2.24</version.rest-api>
     <version.pi4j-api>1.1</version.pi4j-api>
-    <version.plugin.tomcat7>2.2</version.plugin.tomcat7>
+    <version.log4j-web>2.7</version.log4j-web>
+    <version.log4j-simple>1.7.21</version.log4j-simple>
   </properties>
   
   <dependencies>
@@ -32,19 +33,34 @@
     	<scope>provided</scope>
     </dependency>
     <dependency>
-        <groupId>javax.ws.rs</groupId>
-        <artifactId>javax.ws.rs-api</artifactId>
-        <version>${version.rest-api}</version>
-    </dependency>
-    <dependency>
     	<groupId>com.pi4j</groupId>
     	<artifactId>pi4j-core</artifactId>
     	<version>${version.pi4j-api}</version>
     </dependency>
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-web</artifactId>
+        <version>${version.log4j-web}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${version.log4j-simple}</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.glassfish.jersey.containers</groupId>
+    	<artifactId>jersey-container-servlet</artifactId>
+    	<version>${version.rest-api}</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.glassfish.jersey.media</groupId>
+    	<artifactId>jersey-media-json-jackson</artifactId>
+    	<version>${version.rest-api}</version>
+    </dependency>
   </dependencies>
   
   <build>
-    <finalName>${project.artifactId}</finalName>
+    <finalName>system-info</finalName>
     <plugins>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
@@ -63,16 +79,6 @@
             <configuration>
                 <failOnMissingWebXml>true</failOnMissingWebXml>
             </configuration>
-        </plugin>
-        <plugin>
-        	<groupId>org.apache.tomcat.maven</groupId>
-        	<artifactId>tomcat7-maven-plugin</artifactId>
-        	<version>${version.plugin.tomcat7}</version>
-        	<configuration>
-        	   <server>TomcatServer</server>
-        	   <url>http://localhost:8080/manager/text</url>
-        	   <path>/sysinfo</path>
-        	</configuration>
         </plugin>
     </plugins>
   </build>

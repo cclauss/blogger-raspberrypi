@@ -1,12 +1,21 @@
 package ch.raspberryjavame.blogspot.info.scheduler;
 
-import org.quartz.Job;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-public class SystemInfoJob implements Job {
+public class SystemInfoJob extends AbstractJob {
 
+	public SystemInfoJob() {
+		super(SystemInfoJob.class);
+	}
+
+	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		System.out.println("Java web application + Quartz 2.2.2");
+		LocalDateTime date = LocalDateTime.now();
+		logger.info(JOB_MARKER,
+				String.format("Java web application :: %s", date.format(DateTimeFormatter.ISO_DATE_TIME)));
 	}
 }
