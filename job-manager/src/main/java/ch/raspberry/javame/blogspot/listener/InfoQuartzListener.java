@@ -35,7 +35,7 @@ public class InfoQuartzListener implements ServletContextListener {
 	}
 
 	@Override
-	public void contextDestroyed(ServletContextEvent event) {
+	public void contextDestroyed(ServletContextEvent sce) {
 		try {
 			if (scheduler != null) {
 				scheduler.shutdown();
