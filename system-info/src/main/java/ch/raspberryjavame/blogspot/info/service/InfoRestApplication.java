@@ -5,9 +5,9 @@ import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 
 @ApplicationPath("rest")
-public class InfoApplication extends ResourceConfig {
+public class InfoRestApplication extends ResourceConfig {
 
-	public InfoApplication() {
+	public InfoRestApplication() {
 		packages("ch.raspberryjavame.blogspot.info.service.local");
 	}
 }
