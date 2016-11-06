@@ -2,7 +2,7 @@ package ch.raspberryjavame.blogspot.info.service;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-import ch.raspberryjavame.blogspot.info.model.LogEntry;
+import ch.raspberryjavame.blogspot.info.model.SysInfo;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoException;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoManager;
 
@@ -21,8 +21,8 @@ public class RestServiceManager {
 		return instance;
 	}
 
-	public synchronized SystemInfoResponse<LogEntry> getSystemInfo() {
-		SystemInfoResponse<LogEntry> result = new SystemInfoResponse<>();
+	public synchronized SystemInfoResponse<SysInfo> getSystemInfo() {
+		SystemInfoResponse<SysInfo> result = new SystemInfoResponse<>();
 		try {
 			SystemInfoManager info = new SystemInfoManager();
 			result.setData(info.getRealTimeSystemInfo());
