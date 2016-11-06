@@ -6,7 +6,7 @@ public class LogEntry {
 
 	private final LocalDateTime date = LocalDateTime.now();
 	private String platform;
-	private String cpuTemperature;
+	private Float cpuTemperature;
 	private String processor;
 	private String boardType;
 
@@ -18,11 +18,11 @@ public class LogEntry {
 		this.platform = platform;
 	}
 
-	public String getCpuTemperature() {
+	public Float getCpuTemperature() {
 		return cpuTemperature;
 	}
 
-	public void setCpuTemperature(String cpuTemperature) {
+	public void setCpuTemperature(Float cpuTemperature) {
 		this.cpuTemperature = cpuTemperature;
 	}
 

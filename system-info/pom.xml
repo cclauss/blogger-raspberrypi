@@ -18,6 +18,7 @@
     <version.pi4j-api>1.1</version.pi4j-api>
     <version.log4j-web>2.7</version.log4j-web>
     <version.log4j-simple>1.7.21</version.log4j-simple>
+    <version.commons-lang3>3.5</version.commons-lang3>
   </properties>
   
   <dependencies>
@@ -56,6 +57,11 @@
     	<groupId>org.glassfish.jersey.media</groupId>
     	<artifactId>jersey-media-json-jackson</artifactId>
     	<version>${version.rest-api}</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.commons</groupId>
+    	<artifactId>commons-lang3</artifactId>
+    	<version>${version.commons-lang3}</version>
     </dependency>
   </dependencies>
   
