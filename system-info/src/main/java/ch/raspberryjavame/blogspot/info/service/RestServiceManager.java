@@ -4,6 +4,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import ch.raspberryjavame.blogspot.info.model.SysInfo;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoException;
+import ch.raspberryjavame.blogspot.info.system.SystemInfoFactory;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoManager;
 
 public class RestServiceManager {
@@ -24,8 +25,8 @@ public class RestServiceManager {
 	public synchronized SystemInfoResponse<SysInfo> getSystemInfo() {
 		SystemInfoResponse<SysInfo> result = new SystemInfoResponse<>();
 		try {
-			SystemInfoManager info = new SystemInfoManager();
-			result.setData(info.getRealTimeSystemInfo());
+			SystemInfoManager info = SystemInfoFactory.createInfoManager();
+			result.setData(info.getSystemInfo());
 
 		} catch (SystemInfoException ex) {
 			result.setSuccess(false);

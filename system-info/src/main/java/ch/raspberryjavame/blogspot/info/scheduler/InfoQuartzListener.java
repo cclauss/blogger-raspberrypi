@@ -17,7 +17,7 @@ import org.quartz.impl.StdSchedulerFactory;
 @WebListener
 public class InfoQuartzListener extends QuartzInitializerListener {
 
-	private final Logger LOG = LogManager.getLogger(InfoQuartzListener.class);
+	private final Logger LOGGER = LogManager.getLogger(InfoQuartzListener.class);
 	private Scheduler scheduler;
 
 	@Override
@@ -30,7 +30,7 @@ public class InfoQuartzListener extends QuartzInitializerListener {
 			scheduler.scheduleJob(jobDetail, trigger);
 			scheduler.start();
 		} catch (Exception e) {
-			LOG.error("There was an error scheduling the job.", e);
+			LOGGER.error("There was an error scheduling the job.", e);
 		}
 	}
 
@@ -40,10 +40,10 @@ public class InfoQuartzListener extends QuartzInitializerListener {
 			if (scheduler != null) {
 				scheduler.shutdown();
 				Thread.sleep(2000); // wait for shutdown
-				LOG.info("Quartz Scheduler shutdown complete.");
+				LOGGER.info("Quartz Scheduler shutdown complete.");
 			}
 		} catch (Exception e) {
-			LOG.error("There was an error shutting down the job!", e);
+			LOGGER.error("There was an error shutting down the job!", e);
 		}
 
 	}
