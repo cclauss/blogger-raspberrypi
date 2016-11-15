@@ -7,6 +7,6 @@ public class SystemInfoFactory {
 	}
 
 	public static SystemInfoManager createInfoManager() {
-		return new RealTimeSystemInfoManager();
+		return new PythonSystemInfoManager();
 	}
 }

@@ -15,6 +15,7 @@ public class SysInfo {
 	private String cpuRevision;
 	private String cpuVariant;
 	private float cpuVoltage;
+	private String transactionInfo;
 
 	public String getPlatform() {
 		return platform;
@@ -98,5 +99,13 @@ public class SysInfo {
 
 	public void setCpuVoltage(float cpuVoltage) {
 		this.cpuVoltage = cpuVoltage;
+	}
+
+	public String getTransactionInfo() {
+		return transactionInfo;
+	}
+
+	public void setTransactionInfo(String transactionInfo) {
+		this.transactionInfo = transactionInfo;
 	}
 }

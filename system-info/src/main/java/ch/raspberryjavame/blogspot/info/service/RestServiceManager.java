@@ -28,11 +28,11 @@ public class RestServiceManager {
 			SystemInfoManager info = SystemInfoFactory.createInfoManager();
 			result.setData(info.getSystemInfo());
 
-		} catch (SystemInfoException ex) {
+		} catch (SystemInfoException e) {
 			result.setSuccess(false);
-			result.setErrorMessage(ex.getMessage());
-			result.setCode(ex.getErrorCode());
-			result.setDeveloperMessage(ExceptionUtils.getStackTrace(ex));
+			result.setErrorMessage(e.getMessage());
+			result.setCode(e.getErrorCode());
+			result.setDeveloperMessage(ExceptionUtils.getStackTrace(e));
 		}
 		return result;
 	}
