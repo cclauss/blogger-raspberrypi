@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import ch.raspberryjavame.blogspot.info.common.Configuration;
+import ch.raspberryjavame.blogspot.info.script.ScriptManager;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoException;
 
 @WebListener
@@ -20,8 +21,12 @@ public class ApplicationListener implements ServletContextListener {
 		try {
 			LOGGER.info("Initializing application...");
 			Configuration config = Configuration.getInstance();
+			ScriptManager manager = ScriptManager.getInstance();
 			config.init();
-			LOGGER.info("Application initialized.");
+			LOGGER.info("Configuration initialized.");
+			manager.updateScriptConfiguration();
+			LOGGER.info("Scripts configured successfully.");
+			LOGGER.info("Initializing done.");
 		} catch (SystemInfoException e) {
 			LOGGER.error("Fatal application start failed!");
 			throw new RuntimeException(e.getMessage(), e);
