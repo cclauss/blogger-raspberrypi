@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import ch.raspberryjavame.blogspot.info.common.Configuration;
 import ch.raspberryjavame.blogspot.info.system.SystemInfoException;
 
 public class ScriptManager {
@@ -58,7 +59,8 @@ public class ScriptManager {
 	}
 
 	private synchronized String validateScriptStructure(String root) throws SystemInfoException {
-		Properties prop = getSystemProperties();
+		Configuration config = Configuration.getInstance();
+		Properties prop = config.getApplicationProperties();
 		String path = String.format("%s/%s/%s", root, prop.getProperty("application.name"),
 				prop.getProperty("python.path"));
 
@@ -86,21 +88,5 @@ public class ScriptManager {
 
 	private InputStream readPythonScriptFromResource(String name) {
 		return getClass().getClassLoader().getResourceAsStream("/python/" + name);
-	}
-
-	private Properties getSystemProperties() throws SystemInfoException {
-		Properties prop = new Properties();
-		try (InputStream in = getClass().getClassLoader().getResourceAsStream("config.properties")) {
-			if (in != null) {
-				prop.load(in);
-				return prop;
-			} else {
-				LOGGER.error("Fatal! Property file not found check project configuration.");
-				throw new SystemInfoException("Fatal! Property file not found check project configuration.");
-			}
-		} catch (IOException e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new SystemInfoException(e.getMessage(), e);
-		}
 	}
 }

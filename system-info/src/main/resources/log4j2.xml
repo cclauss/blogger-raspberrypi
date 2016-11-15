@@ -4,7 +4,7 @@
     
     <Appenders>
         <Console name="Default" target="SYSTEM_OUT">
-            <PatternLayout pattern="Info Manger :: %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="Info Manager :: %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
             <filters>
                 <MarkerFilter marker="JOB" onMatch="DENY" onMismatch="ACCEPT"/>
             </filters>
