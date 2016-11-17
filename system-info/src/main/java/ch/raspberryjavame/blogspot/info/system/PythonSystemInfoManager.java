@@ -15,7 +15,10 @@ class PythonSystemInfoManager implements SystemInfoManager {
 		try {
 			SysInfo info = new SysInfo();
 			ScriptManager manager = ScriptManager.getInstance();
-			manager.updateScriptConfiguration();
+			String result = manager.executePythonScript("system.py");
+			info.setTransactionInfo(PythonSystemInfoManager.class.getSimpleName());
+			// info.setCpuTemperature(Float.valueOf(result));
+			info.setTransactionInfo(result.replaceAll("\\\\", ""));
 			return info;
 		} catch (Exception e) {
 			LOGGER.error("Executing python script failed!", e);

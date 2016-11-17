@@ -1,8 +1,10 @@
 package ch.raspberryjavame.blogspot.info.script;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class ScriptManager {
 
 	private final Logger LOGGER = LogManager.getLogger(ScriptManager.class);
 	private static ScriptManager instance = null;
+	private String pythonPath = "";
 
 	private ScriptManager() {
 		super();
@@ -33,8 +36,37 @@ public class ScriptManager {
 	}
 
 	public synchronized void updateScriptConfiguration() throws SystemInfoException {
-		String userHome = System.getProperty("user.home");
-		updatePythonScriptStructure(userHome);
+		Configuration config = Configuration.getInstance();
+		updatePythonScriptStructure(config.getUserHome());
+	}
+
+	public String executePythonScript(String script) throws SystemInfoException {
+		String command = String.format("python3 %s%s", this.pythonPath, script);
+		BufferedReader result = null;
+		BufferedReader error = null;
+		try {
+			Process p = Runtime.getRuntime().exec(command);
+
+			if (p.getErrorStream() != null) {
+				error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			}
+
+			if (p.getInputStream() != null) {
+				result = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			}
+
+			String out = result != null ? IOUtils.toString(result) : "N/E";
+			p.destroy();
+			return formatExecutionResultString(out);
+		} catch (IOException e) {
+			String message = String.format("Executing python 3 script %s failed! command was '%s'", script, command);
+			LOGGER.error(message);
+			throw new SystemInfoException(message, e);
+		} finally {
+			if (result != null) {
+				IOUtils.closeQuietly(result);
+			}
+		}
 	}
 
 	private synchronized void updatePythonScriptStructure(String root) throws SystemInfoException {
@@ -43,14 +75,15 @@ public class ScriptManager {
 			File file = new File(path);
 			file.mkdirs();
 			List<String> files = new ArrayList<>();
-			files.add("main.py");
-			files.add("hello.py");
+			files.add("system.py");
+			files.add("system_info.py");
 			for (String f : files) {
 				InputStream in = readPythonScriptFromResource(f);
 				File targetFile = new File(String.format("%s/%s", path, f));
 				java.nio.file.Files.copy(in, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 				IOUtils.closeQuietly(in);
 			}
+			this.pythonPath = path;
 		} catch (IOException e) {
 			LOGGER.error("Unable to copy file in script target directory, check access rights!");
 			throw new SystemInfoException("Unable to copy file in script target directory, check access rights!");
@@ -82,8 +115,15 @@ public class ScriptManager {
 			LOGGER.error("Unable to remove directory, check access rights!");
 			throw new SystemInfoException("Unable to remove directory, check access rights!");
 		} catch (IllegalArgumentException e) {
-			LOGGER.info("Directory does not exists, nothing left to do here.");
+			LOGGER.info("Directory does not exists, nothing to do here.");
 		}
+	}
+
+	private String formatExecutionResultString(String raw) {
+		if (raw.length() == 0) {
+			raw = "empty";
+		}
+		return raw.replace("\n", "").replace("\r", "");
 	}
 
 	private InputStream readPythonScriptFromResource(String name) {

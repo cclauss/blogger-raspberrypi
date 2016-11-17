@@ -10,9 +10,9 @@ import com.pi4j.system.SystemInfo;
 
 import ch.raspberryjavame.blogspot.info.model.SysInfo;
 
-class RealTimeSystemInfoManager implements SystemInfoManager {
+class Pi4jSystemInfoManager implements SystemInfoManager {
 
-	protected final Logger LOGGER = LogManager.getLogger(RealTimeSystemInfoManager.class);
+	protected final Logger LOGGER = LogManager.getLogger(Pi4jSystemInfoManager.class);
 
 	@Override
 	public SysInfo getSystemInfo() throws SystemInfoException {
@@ -28,6 +28,7 @@ class RealTimeSystemInfoManager implements SystemInfoManager {
 			result.setCpuRevision(SystemInfo.getCpuRevision());
 			result.setCpuVariant(SystemInfo.getCpuVariant());
 			result.setCpuVoltage(SystemInfo.getCpuVoltage());
+			result.setTransactionInfo(Pi4jSystemInfoManager.class.getSimpleName());
 			return result;
 		} catch (UnsupportedOperationException e) {
 			LOGGER.error("Access to system refused, check permission for GPIO features!", e);

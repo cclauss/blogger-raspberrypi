@@ -23,9 +23,9 @@ public class ApplicationListener implements ServletContextListener {
 			Configuration config = Configuration.getInstance();
 			ScriptManager manager = ScriptManager.getInstance();
 			config.init();
-			LOGGER.info("Configuration initialized.");
+			LOGGER.info("...configuration initialized successfully.");
 			manager.updateScriptConfiguration();
-			LOGGER.info("Scripts configured successfully.");
+			LOGGER.info("...scripts configured successfully.");
 			LOGGER.info("Initializing done.");
 		} catch (SystemInfoException e) {
 			LOGGER.error("Fatal application start failed!");

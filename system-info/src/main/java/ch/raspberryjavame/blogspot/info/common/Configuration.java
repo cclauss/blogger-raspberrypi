@@ -15,6 +15,7 @@ public class Configuration {
 
 	private static Configuration instance = null;
 	private Properties applicationProperties;
+	private final String userHome = System.getProperty("user.home");
 
 	private Configuration() {
 		super();
@@ -33,6 +34,10 @@ public class Configuration {
 
 	public Properties getApplicationProperties() {
 		return applicationProperties;
+	}
+
+	public String getUserHome() {
+		return userHome;
 	}
 
 	private Properties getSystemProperties() throws SystemInfoException {
