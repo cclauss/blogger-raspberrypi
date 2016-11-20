@@ -15,19 +15,24 @@ import ch.raspberryjavame.blogspot.info.service.SystemInfoResponse;
 public class SystemInfoService {
 
 	@GET
-	@Path("/logs")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public Response getLogs() {
-		return null;
+	@Path("/cpu")
+	public Response getCPUInfo() {
+		try {
+			RestServiceManager manager = RestServiceManager.getInstance();
+			return Response.status(Response.Status.OK).entity(manager.getCPUInfo()).build();
+		} catch (Exception e) {
+			return Response.status(Response.Status.OK).entity(createExceptionResponse(e)).build();
+		}
 	}
 
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/info")
-	public Response getLifeEntry() {
+	public Response getSystemInfo() {
 		try {
 			RestServiceManager manager = RestServiceManager.getInstance();
-			return Response.status(Response.Status.OK).entity(manager.getSystemInfo()).build();
+			return Response.status(Response.Status.OK).entity(manager.getEnhancedSystemInfo()).build();
 		} catch (Exception e) {
 			return Response.status(Response.Status.OK).entity(createExceptionResponse(e)).build();
 		}

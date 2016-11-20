@@ -1,8 +1,8 @@
 package ch.raspberryjavame.blogspot.info.system;
 
-import ch.raspberryjavame.blogspot.info.model.SysInfo;
+import ch.raspberryjavame.blogspot.info.model.Info;
 
-public interface SystemInfoManager {
+public interface SystemInfoManager<T extends Info> {
 
-	public SysInfo getSystemInfo() throws SystemInfoException;
+	public T getSystemInfo() throws SystemInfoException;
 }

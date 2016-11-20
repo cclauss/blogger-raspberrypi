@@ -1,10 +1,7 @@
 package ch.raspberryjavame.blogspot.info.model;
 
-import java.time.LocalDateTime;
+public class CPUInfo extends Info {
 
-public class SysInfo {
-
-	private final LocalDateTime date = LocalDateTime.now();
 	private String platform;
 	private String processor;
 	private String boardType;
@@ -15,7 +12,6 @@ public class SysInfo {
 	private String cpuRevision;
 	private String cpuVariant;
 	private float cpuVoltage;
-	private String transactionInfo;
 
 	public String getPlatform() {
 		return platform;
@@ -47,10 +43,6 @@ public class SysInfo {
 
 	public void setBoardType(String boardType) {
 		this.boardType = boardType;
-	}
-
-	public LocalDateTime getDate() {
-		return date;
 	}
 
 	public String getCpuArchitecture() {
@@ -99,13 +91,5 @@ public class SysInfo {
 
 	public void setCpuVoltage(float cpuVoltage) {
 		this.cpuVoltage = cpuVoltage;
-	}
-
-	public String getTransactionInfo() {
-		return transactionInfo;
-	}
-
-	public void setTransactionInfo(String transactionInfo) {
-		this.transactionInfo = transactionInfo;
 	}
 }

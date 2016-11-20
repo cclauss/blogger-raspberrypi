@@ -8,15 +8,15 @@ import org.apache.logging.log4j.Logger;
 import com.pi4j.platform.PlatformManager;
 import com.pi4j.system.SystemInfo;
 
-import ch.raspberryjavame.blogspot.info.model.SysInfo;
+import ch.raspberryjavame.blogspot.info.model.CPUInfo;
 
-class Pi4jSystemInfoManager implements SystemInfoManager {
+class Pi4jSystemInfoManager implements SystemInfoManager<CPUInfo> {
 
 	protected final Logger LOGGER = LogManager.getLogger(Pi4jSystemInfoManager.class);
 
 	@Override
-	public SysInfo getSystemInfo() throws SystemInfoException {
-		SysInfo result = new SysInfo();
+	public CPUInfo getSystemInfo() throws SystemInfoException {
+		CPUInfo result = new CPUInfo();
 		try {
 			result.setBoardType(SystemInfo.getBoardType().name());
 			result.setPlatform(PlatformManager.getPlatform().getLabel());
