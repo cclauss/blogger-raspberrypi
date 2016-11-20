@@ -55,7 +55,7 @@ public class ScriptManager {
 				result = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			}
 
-			String out = result != null ? IOUtils.toString(result) : "N/E";
+			String out = result != null ? IOUtils.toString(result) : IOUtils.toString(error);
 			p.destroy();
 			return formatExecutionResultString(out);
 		} catch (IOException e) {

@@ -40,7 +40,7 @@ class SystemInfo(object):
 
     # Return CPU temperature as a character string
     @property
-    def cpu_temperature(self) -> str:
+    def cpu_temperature(self):
         res = os.popen('vcgencmd measure_temp').readline()
         # noinspection PyTypeChecker
         return res.replace("temp=", "").replace("'C\n", "")
