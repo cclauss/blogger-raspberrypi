@@ -12,6 +12,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -40,31 +41,40 @@ public class ScriptManager {
 		updatePythonScriptStructure(config.getUserHome());
 	}
 
-	public String executePythonScript(String script) throws SystemInfoException {
+	public ScriptResult executePythonScript(String script) throws SystemInfoException {
 		String command = String.format("python3 %s%s", this.pythonPath, script);
-		BufferedReader result = null;
-		BufferedReader error = null;
+		ScriptResult scriptResult = new ScriptResult();
+		Process p = null;
 		try {
-			Process p = Runtime.getRuntime().exec(command);
-
+			p = Runtime.getRuntime().exec(command);
 			if (p.getErrorStream() != null) {
-				error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+				BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+				String strError = IOUtils.toString(error);
+				scriptResult.setError(strError);
+				// tomcat has no tty (nologin) so top: failed tty get\n
+				// is just a warning but anything else is an error
+				if (!StringUtils.equalsIgnoreCase(strError, "top: failed tty get\n")) {
+					scriptResult.setSuccess(false);
+				}
 			}
-
 			if (p.getInputStream() != null) {
-				result = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				BufferedReader result = new BufferedReader(new InputStreamReader(p.getInputStream()));
+				scriptResult.setResult(IOUtils.toString(result));
+			}
+			if (p.getOutputStream() != null) {
+				byte[] array = new byte[0];
+				p.getOutputStream().write(array);
+				scriptResult.setOut(new String(array));
 			}
 
-			String out = result != null ? IOUtils.toString(result) : IOUtils.toString(error);
-			p.destroy();
-			return formatExecutionResultString(out);
+			return scriptResult;
 		} catch (IOException e) {
 			String message = String.format("Executing python 3 script %s failed! command was '%s'", script, command);
 			LOGGER.error(message);
 			throw new SystemInfoException(message, e);
 		} finally {
-			if (result != null) {
-				IOUtils.closeQuietly(result);
+			if (p != null) {
+				p.destroy();
 			}
 		}
 	}
@@ -119,14 +129,47 @@ public class ScriptManager {
 		}
 	}
 
-	private String formatExecutionResultString(String raw) {
-		if (raw.length() == 0) {
-			raw = "empty";
-		}
-		return raw.replace("\n", "").replace("\r", "");
-	}
-
 	private InputStream readPythonScriptFromResource(String name) {
 		return getClass().getClassLoader().getResourceAsStream("/python/" + name);
+	}
+
+	public class ScriptResult {
+
+		private boolean success = true;
+		private String result;
+		private String error;
+		private String out;
+
+		public boolean isSuccess() {
+			return success;
+		}
+
+		public void setSuccess(boolean success) {
+			this.success = success;
+		}
+
+		public String getResult() {
+			return result;
+		}
+
+		public void setResult(String result) {
+			this.result = result;
+		}
+
+		public String getError() {
+			return error;
+		}
+
+		public void setError(String error) {
+			this.error = error;
+		}
+
+		public String getOut() {
+			return out;
+		}
+
+		public void setOut(String out) {
+			this.out = out;
+		}
 	}
 }

@@ -12,6 +12,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import ch.raspberryjavame.blogspot.info.model.SystemInfo;
 import ch.raspberryjavame.blogspot.info.script.ScriptManager;
+import ch.raspberryjavame.blogspot.info.script.ScriptManager.ScriptResult;
 
 class PythonSystemInfoManager implements SystemInfoManager<SystemInfo> {
 
@@ -21,12 +22,24 @@ class PythonSystemInfoManager implements SystemInfoManager<SystemInfo> {
 	public SystemInfo getSystemInfo() throws SystemInfoException {
 		try {
 			ScriptManager manager = ScriptManager.getInstance();
-			String result = manager.executePythonScript("system.py");
-			return createSystemInfoFromJson(result);
+			ScriptResult result = manager.executePythonScript("system.py");
+			return createSystemInfo(result);
 		} catch (Exception e) {
 			LOGGER.error("Executing python script failed!", e);
 			throw new SystemInfoException(e.getMessage(), e, 1003);
 		}
+	}
+
+	private SystemInfo createSystemInfo(ScriptResult result) throws SystemInfoException {
+		SystemInfo info = new SystemInfo();
+		if (result.isSuccess()) {
+			info = createSystemInfoFromJson(result.getResult());
+		} else {
+			String error = String.format("Error = %s - Out = %s", result.getError(), result.getOut());
+			LOGGER.error(error);
+			throw new SystemInfoException("Executing python script failed, Server says : " + error);
+		}
+		return info;
 	}
 
 	@SuppressWarnings("rawtypes")
