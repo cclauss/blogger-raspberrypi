@@ -68,7 +68,6 @@ public class ScriptManager {
 				p.getOutputStream().write(array);
 				scriptResult.setOut(new String(array));
 			}
-
 			return scriptResult;
 		} catch (IOException e) {
 			String message = String.format("Executing python 3 script %s failed! command was '%s'", script, command);
