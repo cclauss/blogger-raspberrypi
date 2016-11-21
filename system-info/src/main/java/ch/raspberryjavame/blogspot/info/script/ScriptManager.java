@@ -51,9 +51,11 @@ public class ScriptManager {
 				BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 				String strError = IOUtils.toString(error);
 				scriptResult.setError(strError);
-				// tomcat has no tty (nologin) so top: failed tty get\n
+				// tomcat has no tty (nologin is set because of security
+				// reasons) therefore the message:
+				// TERM environment variable not set.\n
 				// is just a warning but anything else is an error
-				if (!StringUtils.equalsIgnoreCase(strError, "top: failed tty get\n")) {
+				if (!StringUtils.equalsIgnoreCase(strError, "TERM environment variable not set.\n")) {
 					scriptResult.setSuccess(false);
 				}
 			}
