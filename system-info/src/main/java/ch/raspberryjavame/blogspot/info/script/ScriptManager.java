@@ -51,7 +51,7 @@ public class ScriptManager {
 				BufferedReader error = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 				String strError = IOUtils.toString(error);
 				scriptResult.setError(strError);
-				// tomcat has no tty (nologin is set because of security
+				// tomcat user has no tty (nologin is set because of security
 				// reasons) therefore the message:
 				// TERM environment variable not set.\n
 				// is just a warning but anything else is an error

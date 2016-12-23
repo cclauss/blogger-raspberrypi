@@ -20,6 +20,7 @@
     <version.log4j-simple>1.7.21</version.log4j-simple>
     <version.commons-lang3>3.5</version.commons-lang3>
     <version.commons-io>1.3.2</version.commons-io>
+    <version.jackson-mapper-asl>1.9.13</version.jackson-mapper-asl>
   </properties>
   
   <dependencies>
@@ -68,6 +69,11 @@
     	<groupId>org.apache.commons</groupId>
     	<artifactId>commons-io</artifactId>
     	<version>${version.commons-io}</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.codehaus.jackson</groupId>
+    	<artifactId>jackson-mapper-asl</artifactId>
+    	<version>${version.jackson-mapper-asl}</version>
     </dependency>
   </dependencies>
   
